@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nutrition Tracker</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="favicon.ico">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Nutrition Tracker</h1>
+    <p>Based on Proximate Principles: Common Foods</p>
+  </div>
+  <div class="food-item-no" >451 food items loaded</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('log')">Daily Log</div>
+  <div class="tab" onclick="showTab('week')">Weekly Summary</div>
+  <div class="tab" onclick="showTab('db')">Food Database</div>
+</div>
+
+<div class="content">
+
+  <!-- DAILY LOG TAB -->
+  <div class="section active" id="tab-log">
+    <div class="card">
+      <h2>Add Food Entry</h2>
+      <div class="row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="entry-date" />
+        </div>
+        <div class="field">
+          <label>Search food (by S.No or name)</label>
+          <div class="search-box">
+            <input type="text" id="food-search" placeholder="Type food name or serial number..." autocomplete="off" />
+            <div class="search-results" id="search-results"></div>
+          </div>
+        </div>
+        <div class="field" >
+          <label>Amount (grams)</label>
+          <input type="number" id="entry-amount" value="100" min="1" />
+        </div>
+      </div>
+      <div id="selected-food-info" class="card">
+        <div style="font-size:13px; color:#5a5a56; margin-bottom:6px;">Selected food:</div>
+        <div id="food-info-content"></div>
+      </div>
+      <button onclick="addEntry()">Add Entry</button>
+    </div>
+
+    <div class="card">
+      <div class="flex-between">
+        <h2>Today's Entries</h2>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span id="today-label" class="day-label"></span>
+          <button class="secondary" onclick="exportDailyExcel()">
+          Export Excel
+          </button>
+        </div>
+      </div>
+      <div id="entries-container">
+        <div class="empty">No entries yet. Add food above.</div>
+      </div>
+      <div id="daily-totals" style="display:none; margin-top:14px; border-top:0.5px solid #e0ddd6; padding-top:14px;">
+        <div style="font-size:13px; color:#5a5a56; margin-bottom:8px; font-weight:500;">Day Totals:</div>
+        <div id="totals-grid" class="summary-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY SUMMARY TAB -->
+  <div class="section" id="tab-week">
+    <div class="card">
+      <div class="flex-between">
+        <div class="week-nav">
+          <button onclick="changeWeek(-1)">Prev</button>
+          <span id="week-label">This Week</span>
+          <button onclick="changeWeek(1)">Next</button>
+        </div>
+        <button class="secondary" onclick="exportExcel()">
+          Export Excel
+        </button>
+      </div>
+
+      <div class="summary-grid" id="week-totals-grid"></div>
+
+      <div class="weekly-table-wrap">
+        <table class="weekly-table" id="weekly-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>S.No</th>
+              <th>Food</th>
+              <th>Amount (g)</th>
+              <th>Moisture (g)</th>
+              <th>Protein (g)</th>
+              <th>Fat (g)</th>
+              <th>Minerals (g)</th>
+              <th>Crude Fibre (g)</th>
+              <th>Carbohydrates (g)</th>
+              <th>Energy (kcal)</th>
+              <th>Calcium (mg)</th>
+              <th>Phosphorus (mg)</th>
+              <th>Iron (mg)</th>
+            </tr>
+          </thead>
+          <tbody id="weekly-tbody">
+            <tr><td colspan="14" class="empty">No data for this week.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD DATABASE TAB -->
+  <div class="section" id="tab-db">
+    <div class="card">
+      <div class="flex-between">
+      <button class="secondary" onclick="exportDBExcel()">
+        Export Excel</button>
+        <h2>Food Database <span class="badge">451 items</span></h2>
+        <input type="text" id="db-search" placeholder="Search food database..." style="width:260px;" oninput="filterDB()" />
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="weekly-table" id="db-table" style="min-width:800px;">
+          <thead>
+            <tr>
+              <th style="text-align:left;">S.No</th>
+              <th style="text-align:left;">Food Name</th>
+              <th>Category</th>
+              <th>Moisture</th>
+              <th>Protein</th>
+              <th>Fat</th>
+              <th>Minerals</th>
+              <th>Crude Fibre</th>
+              <th>Carbs</th>
+              <th>Energy</th>
+              <th>Calcium</th>
+              <th>Phosphorus</th>
+              <th>Iron</th>
+            </tr>
+          </thead>
+          <tbody id="db-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Nutrition Tracker</p>
+  <p>Developed and Maintained by @Dipayan</p>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>
