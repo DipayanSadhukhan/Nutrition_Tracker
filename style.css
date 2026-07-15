@@ -322,7 +322,20 @@ button.danger:hover {
   margin-top: 4px;
 }
 
+.footer {
+  background: #1a2e1a;
+  color: #9ab89a;
+  text-align: center;
+  padding: 16px 24px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  font-size: 12px;
+}
 
+.footer p {
+  margin: 2px 0;
+}
 
 @media (max-width: 768px) {
   body {
@@ -330,13 +343,15 @@ button.danger:hover {
   }
 
   .header {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 6px;
     padding: 14px 16px;
   }
   .header h1 {
-    font-size: 18px;
+    font-size: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -459,12 +474,25 @@ button.danger:hover {
   }
 }
 
-
-
+.footer {
+  padding: 14px 16px;
+  font-size: 11px;
+}
 
 @media (max-width: 420px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px 16px;
+  }
   .header h1 {
-    font-size: 25px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .summary-grid {
     grid-template-columns: 1fr 1fr;
@@ -472,26 +500,5 @@ button.danger:hover {
   .tab {
     padding: 9px 12px;
     font-size: 12px;
-  }
-}
-
-.footer {
-  background: #1a2e1a;
-  color: #9ab89a;
-  text-align: center;
-  padding: 16px 24px;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  font-size: 12px;
-}
-.footer p {
-  margin: 2px 0;
-}
-
-@media (max-width: 768px) {
-  .footer {
-    padding: 14px 16px;
-    font-size: 11px;
   }
 }
