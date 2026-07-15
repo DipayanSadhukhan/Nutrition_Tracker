@@ -7387,19 +7387,30 @@ const BODY_CELL_STYLE = {
   },
 };
 
-function styleWorksheetTable(ws, numRows, numCols) {
+function styleWorksheetTable(ws, numRows, numCols, leftAlignHeader = "Food Name") {
+  let leftAlignCol = -1;
+  if (leftAlignHeader) {
+    for (let c = 0; c < numCols; c++) {
+      const headerRef = XLSX.utils.encode_cell({ r: 0, c });
+      if (ws[headerRef] && ws[headerRef].v === leftAlignHeader) {
+        leftAlignCol = c;
+        break;
+      }
+    }
+  }
+
   for (let r = 0; r < numRows; r++) {
     for (let c = 0; c < numCols; c++) {
       const ref = XLSX.utils.encode_cell({ r, c });
-      
+
       if (!ws[ref]) continue;
       if (r === 0) {
         ws[ref].s = HEADER_CELL_STYLE;
       }
-      else if (c === 1) {
-        ws[ref].s = { 
-          ...BODY_CELL_STYLE, 
-          alignment: { ...BODY_CELL_STYLE?.alignment, horizontal: "left" } 
+      else if (c === leftAlignCol) {
+        ws[ref].s = {
+          ...BODY_CELL_STYLE,
+          alignment: { ...BODY_CELL_STYLE?.alignment, horizontal: "left" }
         };
       }
       else {
