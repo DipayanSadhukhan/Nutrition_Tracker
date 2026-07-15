@@ -491,5 +491,6 @@ button.danger:hover {
   .footer {
     padding: 14px 16px;
     font-size: 11px;
+    margin-top: 8.5rem;
   }
 }
