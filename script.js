@@ -7066,6 +7066,8 @@ function exportDailyExcel() {
     { wch: 16 },
     { wch: 10 },
   ];
+  styleWorksheetTable(ws, rows.length, rows[0].length);
+  ws["!rows"] = [{ hpx: 24 }];
 
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Daily Log");
@@ -7286,6 +7288,9 @@ function exportExcel() {
     { wch: 16 },
     { wch: 10 },
   ];
+  styleWorksheetTable(ws, rows.length, rows[0].length);
+  ws["!rows"] = [{ hpx: 24 }];
+
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Weekly Nutrition");
 
@@ -7320,6 +7325,7 @@ function exportExcel() {
     sumRows.push([k, parseFloat(v.toFixed(2))]),
   );
   const ws2 = XLSX.utils.aoa_to_sheet(sumRows);
+  styleWorksheetTable(ws2, sumRows.length, sumRows[0].length);
   XLSX.utils.book_append_sheet(wb, ws2, "Weekly Summary");
 
   const dateRange = `${dates[0]}_to_${dates[6]}`;
@@ -7362,6 +7368,31 @@ function renderDB(filter) {
 
 function filterDB() {
   renderDB(document.getElementById("db-search").value.trim());
+}
+
+const THIN_BORDER = { style: "thin", color: { rgb: "000000" } };
+
+const HEADER_CELL_STYLE = {
+  fill: { patternType: "solid", fgColor: { rgb: "FFFF00" } },
+  font: { bold: true, color: { rgb: "000000" }, sz: 11 },
+  alignment: { horizontal: "center", vertical: "center", wrapText: true },
+  border: { top: THIN_BORDER, bottom: THIN_BORDER, left: THIN_BORDER, right: THIN_BORDER },
+};
+
+const BODY_CELL_STYLE = {
+  font: { sz: 11 },
+  alignment: { vertical: "center" },
+  border: { top: THIN_BORDER, bottom: THIN_BORDER, left: THIN_BORDER, right: THIN_BORDER },
+};
+
+function styleWorksheetTable(ws, numRows, numCols) {
+  for (let r = 0; r < numRows; r++) {
+    for (let c = 0; c < numCols; c++) {
+      const ref = XLSX.utils.encode_cell({ r, c });
+      if (!ws[ref]) continue;
+      ws[ref].s = r === 0 ? HEADER_CELL_STYLE : BODY_CELL_STYLE;
+    }
+  }
 }
 
 function exportDBExcel() {
@@ -7417,6 +7448,9 @@ function exportDBExcel() {
     { wch: 14 }, // Phosphorus
     { wch: 10 }, // Iron
   ];
+
+  styleWorksheetTable(ws, rows.length, rows[0].length);
+  ws["!rows"] = [{ hpx: 24 }];
 
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Food Database");
