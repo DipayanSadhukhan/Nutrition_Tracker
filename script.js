@@ -6874,7 +6874,7 @@ function addEntry() {
   });
   saveEntries();
   renderEntries();
-  
+
   selectedFood = null;
   document.getElementById("food-search").value = "";
   document.getElementById("selected-food-info").style.display = "none";
@@ -7197,11 +7197,6 @@ function renderWeekly() {
   }
 }
 
-
-
-
-
-
 function exportExcel() {
   const dates = getWeekDates(currentWeekOffset);
   const rows = [
@@ -7248,7 +7243,7 @@ function exportExcel() {
         n?.iron ?? "",
       ]);
     });
-    
+
     const dt = sumNutrients(dayEntries);
     rows.push([
       days[di] + " TOTAL",
@@ -7294,7 +7289,6 @@ function exportExcel() {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Weekly Nutrition");
 
-
   const sumRows = [["Nutrient", "Total for Week"]];
   const weekTotals = {
     Moisture: 0,
@@ -7331,8 +7325,6 @@ function exportExcel() {
   const dateRange = `${dates[0]}_to_${dates[6]}`;
   XLSX.writeFile(wb, `nutrition_${dateRange}.xlsx`);
 }
-
-
 
 //Database rendering and filtering
 function renderDB(filter) {
@@ -7376,21 +7368,43 @@ const HEADER_CELL_STYLE = {
   fill: { patternType: "solid", fgColor: { rgb: "FFFF00" } },
   font: { bold: true, color: { rgb: "000000" }, sz: 11 },
   alignment: { horizontal: "center", vertical: "center", wrapText: true },
-  border: { top: THIN_BORDER, bottom: THIN_BORDER, left: THIN_BORDER, right: THIN_BORDER },
+  border: {
+    top: THIN_BORDER,
+    bottom: THIN_BORDER,
+    left: THIN_BORDER,
+    right: THIN_BORDER,
+  },
 };
 
 const BODY_CELL_STYLE = {
   font: { sz: 11 },
-  alignment: { vertical: "center" },
-  border: { top: THIN_BORDER, bottom: THIN_BORDER, left: THIN_BORDER, right: THIN_BORDER },
+  alignment: { vertical: "center", horizontal: "center" },
+  border: {
+    top: THIN_BORDER,
+    bottom: THIN_BORDER,
+    left: THIN_BORDER,
+    right: THIN_BORDER,
+  },
 };
 
 function styleWorksheetTable(ws, numRows, numCols) {
   for (let r = 0; r < numRows; r++) {
     for (let c = 0; c < numCols; c++) {
       const ref = XLSX.utils.encode_cell({ r, c });
+      
       if (!ws[ref]) continue;
-      ws[ref].s = r === 0 ? HEADER_CELL_STYLE : BODY_CELL_STYLE;
+      if (r === 0) {
+        ws[ref].s = HEADER_CELL_STYLE;
+      }
+      else if (c === 1) {
+        ws[ref].s = { 
+          ...BODY_CELL_STYLE, 
+          alignment: { ...BODY_CELL_STYLE?.alignment, horizontal: "left" } 
+        };
+      }
+      else {
+        ws[ref].s = BODY_CELL_STYLE;
+      }
     }
   }
 }
@@ -7434,7 +7448,7 @@ function exportDBExcel() {
 
   const ws = XLSX.utils.aoa_to_sheet(rows);
   ws["!cols"] = [
-    { wch: 8 },  // S.No
+    { wch: 8 }, // S.No
     { wch: 30 }, // Food Name
     { wch: 14 }, // Category
     { wch: 12 }, // Moisture
