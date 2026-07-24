@@ -60,9 +60,9 @@
         <h2>Today's Entries</h2>
         <div style="display:flex; align-items:center; gap:10px;">
           <span id="today-label" class="day-label"></span>
-          <button class="secondary" onclick="exportDailyExcel()">
+          <!-- <button disabled class="secondary" onclick="exportDailyExcel()">
           Export Excel
-          </button>
+          </button> -->
         </div>
       </div>
       <div id="entries-container">
@@ -84,9 +84,9 @@
           <span id="week-label">This Week</span>
           <button onclick="changeWeek(1)">Next</button>
         </div>
-        <button class="secondary" onclick="exportExcel()">
+        <!-- <button disabled class="secondary" onclick="exportExcel()">
           Export Excel
-        </button>
+        </button> -->
       </div>
 
       <div class="summary-grid" id="week-totals-grid"></div>
@@ -123,8 +123,8 @@
   <div class="section" id="tab-db">
     <div class="card">
       <div class="flex-between">
-      <button class="secondary" onclick="exportDBExcel()">
-        Export Excel</button>
+      <!-- <button disabled class="secondary" onclick="exportDBExcel()">
+        Export Excel</button> -->
         <h2>Food Database <span class="badge">451 items</span></h2>
         <input type="text" id="db-search" placeholder="Search food database..." style="width:260px;" oninput="filterDB()" />
       </div>
